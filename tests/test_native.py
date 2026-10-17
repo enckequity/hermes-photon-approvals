@@ -46,11 +46,16 @@ class NativeTests(unittest.TestCase):
     def test_native_dashboard_mount_preserves_plugin_paths(self):
         import json
         from fastapi import FastAPI
-        from hermes_cli.web_server_dashboard import _dashboard_plugin_entry, _mount_one_plugin_api
+        from hermes_cli.web_server_dashboard import _dashboard_plugin_entry, _mount_plugin_api_routes
+        from unittest.mock import patch
         raw=json.loads((ROOT/'dashboard/manifest.json').read_text())
         plugin=_dashboard_plugin_entry(raw,'photon-approvals',ROOT/'dashboard','user')
         app=FastAPI()
-        self.assertTrue(_mount_one_plugin_api(app,plugin,{'photon-approvals'},set()))
+        with patch('hermes_cli.web_server.app',app), \
+                patch('hermes_cli.web_server._get_dashboard_plugins',return_value=[plugin]), \
+                patch('hermes_cli.plugins_cmd._get_enabled_set',return_value={'photon-approvals'}), \
+                patch('hermes_cli.plugins_cmd._get_disabled_set',return_value=set()):
+            _mount_plugin_api_routes()
         paths={route.path for route in app.routes}
         self.assertIn('/api/plugins/photon-approvals/requests/{request_id}',paths)
         self.assertIn('/api/plugins/photon-approvals/requests/{request_id}/decision',paths)

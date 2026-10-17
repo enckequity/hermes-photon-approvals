@@ -44,7 +44,7 @@ def present(request, settings, sender):
     remaining = deadline-time.monotonic()
     if remaining > 2:
         try:
-            sender.update(url,receipt['session'],choice if status=='recorded' else 'expired',min(1,remaining/2))
+            sender.update(url,receipt['session'],choice if status=='recorded' else 'expired',min(10,remaining/2))
         except Exception:
             log.warning('Card preview update failed; the decision remains recorded in the workspace.')
     return request.respond(choice)

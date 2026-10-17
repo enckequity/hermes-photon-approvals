@@ -2,6 +2,7 @@ import tempfile
 import threading
 import time
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 from hermes_cli.approval_transport import ApprovalRequest, invoke_approval_transport
@@ -110,3 +111,16 @@ class TransportTests(unittest.TestCase):
         self.assertIsNone(result.failure)
         self.assertEqual(self.store.read(req.request_id)['choice'],'once')
         self.assertNotIn('private-provider-error',''.join(logs.output))
+
+    def test_preview_update_has_time_for_token_exchange_and_rpc(self):
+        for timeout, expected in [(30, 10), (8, 4)]:
+            with self.subTest(timeout=timeout):
+                req = self.request(timeout)
+                sender = Sender(lambda:self.store.resolve(req.request_id,req.digest,'once'))
+                budgets = []
+                sender.update = lambda url, session, status, budget: budgets.append(budget)
+                with patch(
+                        'hermes_photon_approvals.transport.time.monotonic', return_value=100):
+                    decision = present(req,self.settings,sender)
+                self.assertEqual(decision.choice,'once')
+                self.assertEqual(budgets,[expected])
