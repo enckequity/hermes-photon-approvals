@@ -7,8 +7,9 @@
     if (decided) return;
     decided = true;
     approve.disabled = deny.disabled = true;
-    status.textContent = choice + ' tapped. No command ran.';
+    status.dataset.choice = choice;
+    status.textContent = (choice === 'approve' ? 'Approved for this demo.' : 'Demo request denied.') + ' No command ran.';
   }
-  approve.addEventListener('click', () => choose('Approve demo'));
-  deny.addEventListener('click', () => choose('Deny demo'));
+  approve.addEventListener('click', () => choose('approve'));
+  deny.addEventListener('click', () => choose('deny'));
 })();
