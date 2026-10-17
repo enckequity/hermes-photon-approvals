@@ -2,7 +2,7 @@
 
 Approve a specific Hermes command once, or deny it, from an authenticated workspace opened inside Messages. This standalone plugin uses Hermes's approval transport and dashboard plugin APIs. Hermes source stays unchanged and Hermes keeps final authority over execution.
 
-**Status: experimental.** Automated contract tests run against Hermes v0.22.2 on DigitalOcean. Live authenticated phone approval is not yet qualified. The earlier multi-select poll is not used by this connector. The first release uses Spectrum's existing shared-line API, not Photon 2 beta projects.
+**Status: experimental.** Automated contract tests run against Hermes v0.22.2 on DigitalOcean. Inline button rendering was confirmed on a device using the harmless demo. Live authenticated phone approval is not yet qualified. The earlier multi-select poll is not used by this connector. This release uses Spectrum's existing shared-line API, not Photon 2 beta projects.
 
 ## What happens
 
@@ -88,6 +88,8 @@ python -m unittest discover -s tests -v
 node --check dashboard/dist/index.js
 node --test tests/frontend.test.cjs
 ```
+
+For the official proto-schema regression, also set `PHOTON_APPROVAL_GRPCURL` and `PHOTON_APPROVAL_PROTO_DIR` to the installed pinned runtime paths. That test skips when those qualification prerequisites are absent.
 
 Tests use synthetic identities and temporary databases. Photon network calls are mocked in unit tests; no text message or command is sent by the suite. Native transport validation uses Hermes's real contract. See [design](docs/design.md), [plan](docs/plan.md) and [verification](docs/verification.md) for evidence and remaining gates.
 

@@ -7,6 +7,13 @@ from hermes_photon_approvals.photon import PhotonSender
 class PhotonTests(unittest.TestCase):
     def sender(self):
         return PhotonSender('project-id','project-secret','+15555550123','/installed/grpcurl','/official/proto')
+    def test_token_exchange_identifies_the_connector(self):
+        with patch('hermes_photon_approvals.photon.build_opener') as build:
+            response=build.return_value.open.return_value.__enter__.return_value
+            response.read.return_value=b'{"succeed":true,"data":{"type":"shared","token":"synthetic-token"}}'
+            self.assertEqual(self.sender()._token(3),'synthetic-token')
+            request=build.return_value.open.call_args.args[0]
+            self.assertEqual(request.get_header('User-agent'),'HermesPhotonApprovals/0.1.1')
     def test_fixed_existing_dm_and_no_secret_argv(self):
         sender=self.sender(); calls=[]
         def run(args,**kwargs):
