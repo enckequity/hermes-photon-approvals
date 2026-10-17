@@ -36,7 +36,8 @@ class PhotonSender:
     def _token(self, timeout):
         auth = base64.b64encode((self.project_id+':'+self.secret).encode()).decode()
         request = Request('https://spectrum.photon.codes/projects/'+quote(self.project_id, safe='')+'/imessage/tokens',
-                          data=b'', headers={'Authorization':'Basic '+auth}, method='POST')
+                          data=b'', headers={'Authorization':'Basic '+auth,
+                                             'User-Agent':'HermesPhotonApprovals/0.1.1'}, method='POST')
         try:
             with build_opener(NoRedirect).open(request, timeout=timeout) as response:
                 payload = json.loads(response.read(1024*1024))
@@ -67,7 +68,7 @@ class PhotonSender:
         return dict(teamId='P8XT6232SL', extensionBundleId='codes.photon.Spectrum.MessagesExtension',
                     appName='Spectrum', appStoreId='6777616651', url=url, live=True,
                     layout={'caption':caption, 'subcaption':'Open your workspace to review.',
-                            'summaryText':caption})
+                            'summary':caption})
 
     def send(self, url, client_id, timeout):
         deadline = time.monotonic()+timeout
