@@ -1,6 +1,6 @@
 # Photon approval cards
 
-Approved scope: a standalone open-source connector for unchanged Hermes. Issue #1; related enckequity/teamshift-hermes#56. This is custom integration code, not a Hermes fork.
+Approved scope: a standalone open-source connector for unchanged Hermes. Issue #1. This is custom integration code, not a Hermes fork.
 
 ## Contract
 
@@ -20,6 +20,6 @@ First release uses the existing Spectrum API/schema contract, not the unrelated 
 
 Tests prove valid decision through the host contract; wrong identity/tenant/digest and malformed choice rejection; concurrent approve/deny accepts one; expiry, process restart and failed sends cannot authorize; cross-origin and missing auth rejected; no sensitive URL/argv/logs. Qualify native discovery, mounting and frontend against pinned Hermes v0.22.2 on DigitalOcean. Review before release. Live phone/card rendering and real authenticated device actions are separate evidence, never inferred from API acceptance.
 
-## Resources
+## Resource ownership
 
-Owner codex-photon-approvals@Dakotas-Mac-mini-2, task #1, 2026-10-17. Repo enckequity/hermes-photon-approvals created private pending review/publication. Canonical checkout /Users/dakotaenck/dev/hermes-photon-approvals retained; worktree /Users/dakotaenck/dev/hermes-photon-approvals-build, branch codex/photon-approval-cards active. Lease hermes-photon-approval-plugin active. No runtime process or browser tab created yet. Credentials and exact private identities stay outside this public repository.
+Development uses an isolated task branch and worktree. Test copies run only on approved DigitalOcean compute, with temporary databases and no gateway configuration changes. The operator keeps the exact machine/session/resource ledger in the private deployment issue. Public artifacts contain no credentials, account identities or runtime receipts.
