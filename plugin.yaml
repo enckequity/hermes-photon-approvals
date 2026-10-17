@@ -1,0 +1,8 @@
+name: photon-approvals
+label: Photon approval cards
+version: 0.1.0
+kind: backend
+description: Request-bound approval cards using the native Hermes approval transport and authenticated dashboard.
+author: TeamShift
+license: MIT
+homepage: https://github.com/enckequity/hermes-photon-approvals

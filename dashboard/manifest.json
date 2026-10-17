@@ -1,0 +1,11 @@
+{
+  "name": "photon-approvals",
+  "label": "Approvals",
+  "description": "Review a specific command and approve it once or deny it.",
+  "icon": "ShieldCheck",
+  "version": "0.1.0",
+  "tab": {"path": "/photon-approvals", "position": "end"},
+  "entry": "dist/index.js",
+  "css": "dist/style.css",
+  "api": "plugin_api.py"
+}
